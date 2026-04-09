@@ -1,4 +1,5 @@
 import {
+  AzureAuthorityHosts,
   AzureCliCredential,
   ClientSecretCredential,
   DeviceCodeCredential,
@@ -24,6 +25,16 @@ export interface CredentialPlan {
 }
 
 const developerClientId = "04b07795-8ddb-461a-bbee-02f9e1bf7b46";
+
+export function shouldDisableInstanceDiscovery(authorityHost: string): boolean {
+  const wellKnownHosts = new Set([
+    AzureAuthorityHosts.AzurePublicCloud,
+    AzureAuthorityHosts.AzureGovernment,
+    AzureAuthorityHosts.AzureChina,
+  ]);
+  const normalized = authorityHost.replace(/\/+$/, "");
+  return !wellKnownHosts.has(normalized as AzureAuthorityHosts);
+}
 
 function requireEnv(name: string, env: NodeJS.ProcessEnv): string {
   const value = env[name];
@@ -103,6 +114,7 @@ export function createCredentialPlan(
         clientId: requireEnv("AZURE_CLIENT_ID", env),
         tokenFilePath: requireEnv("AZURE_FEDERATED_TOKEN_FILE", env),
         authorityHost: profile.authorityHost,
+        disableInstanceDiscovery: shouldDisableInstanceDiscovery(profile.authorityHost),
       });
 
       return {
@@ -121,6 +133,7 @@ export function createCredentialPlan(
         requireEnv("AZURE_CLIENT_SECRET", env),
         {
           authorityHost: profile.authorityHost,
+          disableInstanceDiscovery: shouldDisableInstanceDiscovery(profile.authorityHost),
         },
       );
 
@@ -138,6 +151,7 @@ export function createCredentialPlan(
         tenantId: env.AZURE_TENANT_ID,
         clientId: env.AZURE_CLIENT_ID ?? developerClientId,
         authorityHost: profile.authorityHost,
+        disableInstanceDiscovery: shouldDisableInstanceDiscovery(profile.authorityHost),
         userPromptCallback: (info) => {
           console.info(info.message);
         },
