@@ -49,7 +49,7 @@ jobs:
       - name: Run unit tests
         run: npx tsx --test test/cloudProfile.test.ts
       - name: Run e2e tests (Tier 1 + 2)
-        run: npx tsx --test test/e2e/**/*.test.ts
+        run: npx tsx --test 'test/e2e/**/*.test.ts'
       - name: Run smoke test (profile validation)
         run: npx tsx scripts/smoke-test.ts --all
 
