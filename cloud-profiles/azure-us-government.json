@@ -1,0 +1,21 @@
+{
+  "name": "azure-us-government",
+  "displayName": "Azure Government",
+  "environment": "usgovernment",
+  "authorityHost": "https://login.microsoftonline.us/",
+  "resourceManagerEndpoint": "https://management.usgovcloudapi.net/",
+  "resourceManagerAudience": "https://management.usgovcloudapi.net/",
+  "serviceDnsSuffixes": {
+    "storage": ".blob.core.usgovcloudapi.net",
+    "keyVault": ".vault.usgovcloudapi.net",
+    "sqlServer": ".database.usgovcloudapi.net",
+    "containerRegistry": ".azurecr.us"
+  },
+  "serviceAudiences": {
+    "arm": "https://management.usgovcloudapi.net/",
+    "storage": "https://storage.azure.com/",
+    "keyVault": "https://vault.azure.net/"
+  },
+  "portalUrl": "https://portal.azure.us/",
+  "notes": "Built-in Azure Government profile."
+}

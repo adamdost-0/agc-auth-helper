@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Custom Azure cloud profile",
+  "type": "object",
+  "required": [
+    "name",
+    "displayName",
+    "environment",
+    "authorityHost",
+    "resourceManagerEndpoint",
+    "resourceManagerAudience",
+    "serviceDnsSuffixes",
+    "serviceAudiences"
+  ],
+  "properties": {
+    "name": { "type": "string" },
+    "displayName": { "type": "string" },
+    "environment": {
+      "type": "string",
+      "enum": [
+        "usgovernment",
+        "usgovernmentsecret",
+        "usgovernmenttopsecret",
+        "azurestackcloud",
+        "custom"
+      ]
+    },
+    "authorityHost": { "type": "string", "format": "uri" },
+    "resourceManagerEndpoint": { "type": "string", "format": "uri" },
+    "resourceManagerAudience": { "type": "string", "format": "uri" },
+    "tenantId": { "type": "string" },
+    "portalUrl": { "type": "string", "format": "uri" },
+    "metadataEndpoint": { "type": "string", "format": "uri" },
+    "serviceDnsSuffixes": {
+      "type": "object",
+      "required": ["storage", "keyVault", "sqlServer", "containerRegistry"],
+      "properties": {
+        "storage": { "type": "string" },
+        "keyVault": { "type": "string" },
+        "sqlServer": { "type": "string" },
+        "containerRegistry": { "type": "string" }
+      }
+    },
+    "serviceAudiences": {
+      "type": "object",
+      "required": ["arm", "storage", "keyVault"],
+      "properties": {
+        "arm": { "type": "string", "format": "uri" },
+        "storage": { "type": "string", "format": "uri" },
+        "keyVault": { "type": "string", "format": "uri" }
+      }
+    },
+    "notes": { "type": "string" }
+  }
+}

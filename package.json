@@ -1,0 +1,25 @@
+{
+  "name": "sovereign-auth-reference",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Reference web app for custom Azure sovereign clouds using azure-identity.",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "dev": "tsx watch src/index.ts",
+    "start": "node dist/src/index.js",
+    "test": "tsx --test test/**/*.test.ts",
+    "smoke-test": "tsx scripts/smoke-test.ts"
+  },
+  "dependencies": {
+    "@azure/identity": "^4.11.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.3",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.3"
+  }
+}

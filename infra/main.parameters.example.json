@@ -1,0 +1,39 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "location": {
+      "value": "usgovvirginia"
+    },
+    "projectName": {
+      "value": "sovereign-auth"
+    },
+    "environment": {
+      "value": "dev"
+    },
+    "managedBy": {
+      "value": "bicep"
+    },
+    "owner": {
+      "value": "platform-team"
+    },
+    "classification": {
+      "value": "CUI"
+    },
+    "compliance": {
+      "value": "FedRAMP-High"
+    },
+    "cloudProfileName": {
+      "value": "azure-us-government"
+    },
+    "blobPrivateDnsZoneName": {
+      "value": "privatelink.blob.core.usgovcloudapi.net"
+    },
+    "keyVaultPrivateDnsZoneName": {
+      "value": "privatelink.vaultcore.usgovcloudapi.net"
+    },
+    "webPrivateDnsZoneName": {
+      "value": "privatelink.azurewebsites.us"
+    }
+  }
+}

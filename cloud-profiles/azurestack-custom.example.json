@@ -1,0 +1,21 @@
+{
+  "name": "azurestack-custom",
+  "displayName": "Azure Stack custom cloud example",
+  "environment": "azurestackcloud",
+  "authorityHost": "https://login.azurestack.contoso.local/",
+  "resourceManagerEndpoint": "https://management.azurestack.contoso.local/",
+  "resourceManagerAudience": "https://management.azurestack.contoso.local/",
+  "tenantId": "00000000-0000-0000-0000-000000000000",
+  "serviceDnsSuffixes": {
+    "storage": ".blob.storage.azurestack.contoso.local",
+    "keyVault": ".vault.azurestack.contoso.local",
+    "sqlServer": ".database.azurestack.contoso.local",
+    "containerRegistry": ".azurecr.azurestack.contoso.local"
+  },
+  "serviceAudiences": {
+    "arm": "https://management.azurestack.contoso.local/",
+    "storage": "https://storage.azurestack.contoso.local/",
+    "keyVault": "https://vault.azurestack.contoso.local/"
+  },
+  "notes": "Use this shape for disconnected Azure Stack deployments where the management endpoint and audience differ from Azure public defaults."
+}
