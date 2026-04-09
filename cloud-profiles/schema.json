@@ -1,6 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Custom Azure cloud profile",
+  "description": "Defines a custom Azure cloud profile with endpoints, audiences, and DNS suffixes. For private clouds (AzureStack Hub, Azure Government Secret/TopSecret), the credential factory automatically disables MSAL instance discovery when the authorityHost is not a well-known Microsoft endpoint.",
   "type": "object",
   "required": [
     "name",
@@ -26,7 +27,11 @@
         "custom"
       ]
     },
-    "authorityHost": { "type": "string", "format": "uri" },
+    "authorityHost": {
+      "type": "string",
+      "format": "uri",
+      "description": "The Entra ID (Azure AD) login endpoint. For non-well-known hosts (AzureStack, Secret, TopSecret), the app automatically sets disableInstanceDiscovery=true on credential constructors."
+    },
     "resourceManagerEndpoint": { "type": "string", "format": "uri" },
     "resourceManagerAudience": { "type": "string", "format": "uri" },
     "tenantId": { "type": "string" },

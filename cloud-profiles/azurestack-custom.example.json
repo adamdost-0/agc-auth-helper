@@ -17,5 +17,5 @@
     "storage": "https://storage.azurestack.contoso.local/",
     "keyVault": "https://vault.azurestack.contoso.local/"
   },
-  "notes": "Use this shape for disconnected Azure Stack deployments where the management endpoint and audience differ from Azure public defaults."
+  "notes": "Use this shape for disconnected Azure Stack deployments where the management endpoint and audience differ from Azure public defaults. The app automatically disables MSAL instance discovery for this cloud's authority host."
 }

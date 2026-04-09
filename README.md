@@ -6,7 +6,7 @@ Reference web app architecture for **Azure Government**, **Azure Government Secr
 
 - A minimal **backend-for-frontend** Node.js/TypeScript web app
 - A **cloud profile registry** for sovereign and custom Azure clouds
-- A deterministic **credential factory** for managed identity, workload identity, and local developer auth
+- A deterministic **credential factory** for managed identity, workload identity, and local developer auth — auto-detects non-public authority hosts and sets `disableInstanceDiscovery: true`
 - Sample **ARM** and **Storage** calls that use explicit token audiences instead of public-cloud defaults
 - A **Bicep** deployment baseline for private ingress, managed identity, private endpoints, and diagnostics
 - A **smoke-test** script and unit tests for configuration validation
@@ -46,12 +46,71 @@ Each profile defines:
 
 The built-in profiles include:
 
+- `azure-commercial`
 - `azure-us-government`
 - `azure-us-gov-secret`
 - `azure-us-gov-topsecret`
 - `azurestack-custom`
 
 For Secret, Top Secret, and Azure Stack environments, the example profiles intentionally use **operator-supplied placeholder values** so teams can plug in the exact management endpoints and audience URLs used inside their enclave.
+
+## Private cloud authentication (AzureStack, Secret, Top Secret)
+
+### The problem
+
+When using `@azure/identity` with clouds that have custom authority hosts — AzureStack Hub, Azure Government Secret, Azure Government Top Secret, or any custom private cloud — MSAL's default instance discovery tries to validate the authority against `login.microsoft.com`. This fails because these clouds use non-public authority hosts that aren't reachable from, or registered with, Microsoft's public instance discovery endpoint.
+
+### The solution
+
+The `disableInstanceDiscovery: true` option must be passed to credential constructors so MSAL skips the public validation call. This app handles it automatically: the credential factory (`src/auth/credentialFactory.ts`) detects non-well-known authority hosts and sets the flag.
+
+The well-known hosts that **don't** need this flag are:
+
+- `https://login.microsoftonline.com` (Azure Public)
+- `https://login.microsoftonline.us` (Azure Government)
+- `https://login.chinacloudapi.cn` (Azure China)
+
+Any other authority host triggers `disableInstanceDiscovery: true`.
+
+### Cloud reference
+
+| Cloud | Authority Host | Instance Discovery |
+|-------|---------------|-------------------|
+| Azure Commercial | `login.microsoftonline.com` | Enabled (default) |
+| Azure Government | `login.microsoftonline.us` | Enabled (default) |
+| Azure Gov Secret | Enclave-specific | **Disabled** (auto) |
+| Azure Gov Top Secret | Enclave-specific | **Disabled** (auto) |
+| AzureStack Hub | On-premises | **Disabled** (auto) |
+| Custom Cloud | User-provided | **Disabled** (auto) |
+
+### Direct usage with `@azure/identity`
+
+The app handles this automatically, but for reference, here is how you would pass the option directly:
+
+```typescript
+import { ClientSecretCredential } from "@azure/identity";
+
+const credential = new ClientSecretCredential(tenantId, clientId, clientSecret, {
+  authorityHost: "https://login.mystack.contoso.local/",
+  disableInstanceDiscovery: true,
+});
+```
+
+### Affected credential types
+
+- **`ClientSecretCredential`**, **`WorkloadIdentityCredential`**, **`DeviceCodeCredential`** — these use an authority host for token requests and require `disableInstanceDiscovery: true` in private clouds.
+- **`ManagedIdentityCredential`** — uses IMDS (Instance Metadata Service), not an authority host, so it is **not affected**.
+- **`AzureCliCredential`** — handled by the CLI itself via `az cloud set`; no additional option needed.
+
+### Dynamic audience discovery via ARM metadata
+
+For private and AzureStack clouds the correct token audience is not hardcoded — it is discovered at runtime from the ARM metadata endpoint:
+
+```
+GET https://{arm-endpoint}/metadata/endpoints?api-version=2015-01-01
+```
+
+This returns the `authentication.audiences` array needed for token scope configuration. The cloud profile's `resourceManagerAudience` should match one of these values.
 
 ## Local development
 
