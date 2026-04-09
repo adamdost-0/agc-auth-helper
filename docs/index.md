@@ -6,9 +6,9 @@ nav_order: 1
 
 # Sovereign Auth Guide
 
-**Air-gap friendly authentication patterns for Azure Stack Hub, Azure Government Secret, and Azure Government Top Secret.**
+**Code patterns for making `@azure/identity` work with Azure Stack Hub, Azure Government Secret, and Azure Government Top Secret.**
 
-This guide shows how to configure `@azure/identity` and the Azure SDKs to authenticate in environments where Microsoft's public instance discovery endpoints are unreachable — air-gapped enclaves, on-premises Azure Stack deployments, and classified sovereign clouds.
+This guide shows the specific code changes needed to authenticate with the Azure SDKs in private cloud environments — where Microsoft's public instance discovery endpoints are unreachable and custom authority hosts, ARM endpoints, and token audiences must be configured explicitly.
 
 ---
 
@@ -39,7 +39,6 @@ This reference app demonstrates the complete pattern with a working implementati
 | [Getting Started](getting-started) | Clone, configure, and run the reference app |
 | [Cloud Profiles](cloud-profiles) | The cloud profile model — endpoints, audiences, DNS suffixes |
 | [Authentication](authentication) | `disableInstanceDiscovery`, credential types, ARM metadata discovery |
-| [Air-Gap Patterns](air-gap-patterns) | Package mirroring, container transfer, CI/CD without internet |
 | [Deployment](deployment) | Bicep infrastructure with private endpoints and managed identity |
 
 ## Quick start

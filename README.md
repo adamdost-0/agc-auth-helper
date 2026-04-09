@@ -47,7 +47,6 @@ npm run dev
 - [Getting Started](https://adamdost-0.github.io/soverign-auth/getting-started) — Local dev setup and cloud selection
 - [Cloud Profiles](https://adamdost-0.github.io/soverign-auth/cloud-profiles) — Cloud profile model and built-in profiles
 - [Authentication](https://adamdost-0.github.io/soverign-auth/authentication) — Private cloud auth, `disableInstanceDiscovery`, and credential types
-- [Air-Gap Patterns](https://adamdost-0.github.io/soverign-auth/air-gap-patterns) — Registry mirroring and air-gapped deployment patterns
 - [Deployment](https://adamdost-0.github.io/soverign-auth/deployment) — Bicep baseline, compliance tags, and RBAC setup
 
 ## Important note for classified clouds
