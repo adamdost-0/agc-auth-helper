@@ -9,6 +9,14 @@ import {
   validateCloudProfile,
 } from "../src/config/cloudProfile.js";
 
+test("Azure Commercial profile resolves public cloud endpoints", () => {
+  const profile = getBuiltinCloudProfile("azure-commercial", {});
+
+  assert.equal(profile.authorityHost, "https://login.microsoftonline.com/");
+  assert.equal(profile.resourceManagerEndpoint, "https://management.azure.com/");
+  assert.equal(profile.serviceDnsSuffixes.storage, ".blob.core.windows.net");
+});
+
 test("Azure Government profile resolves known sovereign endpoints", () => {
   const profile = getBuiltinCloudProfile("azure-us-government", {});
 

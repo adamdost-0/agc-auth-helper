@@ -1,0 +1,183 @@
+name: E2E Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      run_live_tests:
+        description: 'Run Tier 3 live integration tests'
+        type: boolean
+        default: false
+      target_cloud:
+        description: 'Target cloud for live tests (all or specific)'
+        type: choice
+        options:
+          - all
+          - azure-commercial
+          - azure-us-government
+          - azurestack-custom
+        default: all
+
+jobs:
+  # ---- Tier 1 + 2: Offline + Mock (always runs) ----
+  build:
+    name: Build & Typecheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run build
+
+  tier1-tier2-tests:
+    name: Tier 1+2 — Offline & Mock E2E
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci
+      - name: Run unit tests
+        run: npx tsx --test test/cloudProfile.test.ts
+      - name: Run e2e tests (Tier 1 + 2)
+        run: npx tsx --test test/e2e/**/*.test.ts
+      - name: Run smoke test (profile validation)
+        run: npx tsx scripts/smoke-test.ts --all
+
+  # ---- Tier 3: Live Integration (per-cloud, conditional) ----
+  # These jobs are placeholders — enable by:
+  # 1. Adding the required secrets to the repository
+  # 2. Changing `if: false` to the appropriate condition
+  # 3. For AzureStack/Secret/TopSecret: configure self-hosted runners
+
+  live-commercial:
+    name: Tier 3 — Azure Commercial (Live)
+    runs-on: ubuntu-latest
+    needs: tier1-tier2-tests
+    if: >-
+      (github.event_name == 'workflow_dispatch' && github.event.inputs.run_live_tests == 'true' &&
+       (github.event.inputs.target_cloud == 'all' || github.event.inputs.target_cloud == 'azure-commercial'))
+    environment: azure-commercial
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci
+      - name: Smoke test with token probe
+        env:
+          AZURE_CLOUD: azure-commercial
+          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+          AUTH_MODE: clientSecret
+        run: npx tsx scripts/smoke-test.ts --cloud azure-commercial --check-token
+
+  live-government:
+    name: Tier 3 — Azure Government (Live)
+    runs-on: ubuntu-latest
+    needs: tier1-tier2-tests
+    if: >-
+      (github.event_name == 'workflow_dispatch' && github.event.inputs.run_live_tests == 'true' &&
+       (github.event.inputs.target_cloud == 'all' || github.event.inputs.target_cloud == 'azure-us-government'))
+    environment: azure-government
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci
+      - name: Smoke test with token probe
+        env:
+          AZURE_CLOUD: azure-us-government
+          AZURE_TENANT_ID: ${{ secrets.AZURE_GOV_TENANT_ID }}
+          AZURE_CLIENT_ID: ${{ secrets.AZURE_GOV_CLIENT_ID }}
+          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_GOV_CLIENT_SECRET }}
+          AUTH_MODE: clientSecret
+        run: npx tsx scripts/smoke-test.ts --cloud azure-us-government --check-token
+
+  live-azurestack:
+    name: Tier 3 — Azure Stack (Live)
+    runs-on: ubuntu-latest  # Change to self-hosted runner with AzureStack access
+    needs: tier1-tier2-tests
+    if: >-
+      (github.event_name == 'workflow_dispatch' && github.event.inputs.run_live_tests == 'true' &&
+       (github.event.inputs.target_cloud == 'all' || github.event.inputs.target_cloud == 'azurestack-custom'))
+    environment: azurestack
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci
+      - name: Smoke test with token probe
+        env:
+          AZURE_CLOUD: azurestack-custom
+          CUSTOM_CLOUD_PROFILE_PATH: ${{ secrets.AZURESTACK_PROFILE_PATH }}
+          AZURE_TENANT_ID: ${{ secrets.AZURESTACK_TENANT_ID }}
+          AZURE_CLIENT_ID: ${{ secrets.AZURESTACK_CLIENT_ID }}
+          AZURE_CLIENT_SECRET: ${{ secrets.AZURESTACK_CLIENT_SECRET }}
+          AUTH_MODE: clientSecret
+        run: npx tsx scripts/smoke-test.ts --cloud azurestack-custom --check-token
+
+  # Secret and Top Secret clouds cannot be reached from GitHub-hosted runners.
+  # These jobs serve as documentation — run them from:
+  # - GitHub Enterprise Server (GHES) inside the enclave
+  # - Azure DevOps Server inside the enclave
+  # - A self-hosted runner with network access to the enclave endpoints
+
+  live-secret:
+    name: Tier 3 — Azure Gov Secret (Live)
+    runs-on: ubuntu-latest  # Must be self-hosted runner INSIDE the Secret enclave
+    needs: tier1-tier2-tests
+    if: false  # Enable only on enclave GHES/ADO Server
+    environment: azure-secret
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci
+      - name: Smoke test with token probe
+        env:
+          AZURE_CLOUD: azure-us-gov-secret
+          AZURE_TENANT_ID: ${{ secrets.AZURE_SECRET_TENANT_ID }}
+          AZURE_CLIENT_ID: ${{ secrets.AZURE_SECRET_CLIENT_ID }}
+          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_SECRET_CLIENT_SECRET }}
+          AUTH_MODE: clientSecret
+        run: npx tsx scripts/smoke-test.ts --cloud azure-us-gov-secret --check-token
+
+  live-topsecret:
+    name: Tier 3 — Azure Gov Top Secret (Live)
+    runs-on: ubuntu-latest  # Must be self-hosted runner INSIDE the Top Secret enclave
+    needs: tier1-tier2-tests
+    if: false  # Enable only on enclave GHES/ADO Server
+    environment: azure-topsecret
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci
+      - name: Smoke test with token probe
+        env:
+          AZURE_CLOUD: azure-us-gov-topsecret
+          AZURE_TENANT_ID: ${{ secrets.AZURE_TOPSECRET_TENANT_ID }}
+          AZURE_CLIENT_ID: ${{ secrets.AZURE_TOPSECRET_CLIENT_ID }}
+          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_TOPSECRET_CLIENT_SECRET }}
+          AUTH_MODE: clientSecret
+        run: npx tsx scripts/smoke-test.ts --cloud azure-us-gov-topsecret --check-token

@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 import { resolve as resolvePath } from "node:path";
 
 export type CloudEnvironment =
+  | "public"
   | "usgovernment"
   | "usgovernmentsecret"
   | "usgovernmenttopsecret"
@@ -37,6 +38,7 @@ export interface CloudProfile {
 }
 
 export const supportedClouds = [
+  "azure-commercial",
   "azure-us-government",
   "azure-us-gov-secret",
   "azure-us-gov-topsecret",
@@ -46,6 +48,27 @@ export const supportedClouds = [
 export type SupportedCloudName = (typeof supportedClouds)[number];
 
 const builtinProfiles: Record<SupportedCloudName, CloudProfile> = {
+  "azure-commercial": {
+    name: "azure-commercial",
+    displayName: "Azure Commercial (Public)",
+    environment: "public",
+    authorityHost: "https://login.microsoftonline.com/",
+    resourceManagerEndpoint: "https://management.azure.com/",
+    resourceManagerAudience: "https://management.azure.com/",
+    serviceDnsSuffixes: {
+      storage: ".blob.core.windows.net",
+      keyVault: ".vault.azure.net",
+      sqlServer: ".database.windows.net",
+      containerRegistry: ".azurecr.io",
+    },
+    serviceAudiences: {
+      arm: "https://management.azure.com/",
+      storage: "https://storage.azure.com/",
+      keyVault: "https://vault.azure.net/",
+    },
+    portalUrl: "https://portal.azure.com/",
+    notes: "Azure Commercial (Public) cloud defaults. Use for development and non-government workloads.",
+  },
   "azure-us-government": {
     name: "azure-us-government",
     displayName: "Azure Government",
