@@ -1,0 +1,50 @@
+title: "Sovereign Auth Guide"
+description: "Air-gap friendly authentication patterns for Azure Stack Hub, Azure Government Secret, and Azure Government Top Secret"
+baseurl: "/soverign-auth"
+url: "https://adamdost-0.github.io"
+
+remote_theme: just-the-docs/just-the-docs@v0.10.1
+
+color_scheme: dark
+
+aux_links:
+  "View on GitHub":
+    - "https://github.com/adamdost-0/soverign-auth"
+
+nav_order_start: 1
+
+heading_anchors: true
+
+search_enabled: true
+search.heading_level: 3
+
+back_to_top: true
+back_to_top_text: "Back to top"
+
+footer_content: "sovereign-auth — Air-gap friendly Azure authentication patterns"
+
+callouts:
+  warning:
+    title: Warning
+    color: red
+  important:
+    title: Important
+    color: yellow
+  note:
+    title: Note
+    color: blue
+  tip:
+    title: Tip
+    color: green
+
+exclude:
+  - node_modules/
+  - dist/
+  - .squad/
+  - .github/agents/
+  - .github/skills/
+  - .github/prompts/
+  - openspec/
+  - "*.ts"
+  - "*.json"
+  - "*.js"
