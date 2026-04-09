@@ -39,6 +39,7 @@ This reference app demonstrates the complete pattern with a working implementati
 | [Getting Started](getting-started) | Clone, configure, and run the reference app |
 | [Cloud Profiles](cloud-profiles) | The cloud profile model — endpoints, audiences, DNS suffixes |
 | [Authentication](authentication) | `disableInstanceDiscovery`, credential types, ARM metadata discovery |
+| [Code Snippets](code-snippets) | Copy-paste code for `azure-identity` in TypeScript, Python, .NET, Go, and CLI |
 | [Deployment](deployment) | Bicep infrastructure with private endpoints and managed identity |
 
 ## Quick start

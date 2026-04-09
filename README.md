@@ -47,6 +47,7 @@ npm run dev
 - [Getting Started](https://adamdost-0.github.io/soverign-auth/getting-started) — Local dev setup and cloud selection
 - [Cloud Profiles](https://adamdost-0.github.io/soverign-auth/cloud-profiles) — Cloud profile model and built-in profiles
 - [Authentication](https://adamdost-0.github.io/soverign-auth/authentication) — Private cloud auth, `disableInstanceDiscovery`, and credential types
+- [Code Snippets](https://adamdost-0.github.io/soverign-auth/code-snippets) — Copy-paste `azure-identity` code for TypeScript, Python, .NET, Go, and CLI
 - [Deployment](https://adamdost-0.github.io/soverign-auth/deployment) — Bicep baseline, compliance tags, and RBAC setup
 
 ## Important note for classified clouds
