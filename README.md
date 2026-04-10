@@ -1,8 +1,8 @@
-# sovereign-auth
+# AGC Auth Helper
 
 Reference web app architecture for **Azure Government**, **Azure Government Secret / Top Secret**, and **AzureStackCloud-style** environments that need explicit authority hosts, management endpoints, and token audiences when using the **`azure-identity`** stack.
 
-👉 **[Full documentation →](https://adamdost-0.github.io/soverign-auth)**
+👉 **[Full documentation →](https://adamdost-0.github.io/agc-auth-helper)**
 
 ## What this repo includes
 
@@ -35,8 +35,8 @@ Reference Web UI  -->  Backend-for-Frontend API
 ## Quick start
 
 ```bash
-git clone https://github.com/adamdost-0/soverign-auth.git
-cd soverign-auth
+git clone https://github.com/adamdost-0/agc-auth-helper.git
+cd agc-auth-helper
 npm install
 cp .env.example .env
 npm run dev
@@ -44,11 +44,11 @@ npm run dev
 
 ## Documentation
 
-- [Getting Started](https://adamdost-0.github.io/soverign-auth/getting-started) — Local dev setup and cloud selection
-- [Cloud Profiles](https://adamdost-0.github.io/soverign-auth/cloud-profiles) — Cloud profile model and built-in profiles
-- [Authentication](https://adamdost-0.github.io/soverign-auth/authentication) — Private cloud auth, `disableInstanceDiscovery`, and credential types
-- [Code Snippets](https://adamdost-0.github.io/soverign-auth/code-snippets) — Copy-paste `azure-identity` code for TypeScript, Python, .NET, Go, and CLI
-- [Deployment](https://adamdost-0.github.io/soverign-auth/deployment) — Bicep baseline, compliance tags, and RBAC setup
+- [Getting Started](https://adamdost-0.github.io/agc-auth-helper/getting-started) — Local dev setup and cloud selection
+- [Cloud Profiles](https://adamdost-0.github.io/agc-auth-helper/cloud-profiles) — Cloud profile model and built-in profiles
+- [Authentication](https://adamdost-0.github.io/agc-auth-helper/authentication) — Private cloud auth, `disableInstanceDiscovery`, and credential types
+- [Code Snippets](https://adamdost-0.github.io/agc-auth-helper/code-snippets) — Copy-paste `azure-identity` code for TypeScript, Python, .NET, Go, and CLI
+- [Deployment](https://adamdost-0.github.io/agc-auth-helper/deployment) — Bicep baseline, compliance tags, and RBAC setup
 
 ## Important note for classified clouds
 
