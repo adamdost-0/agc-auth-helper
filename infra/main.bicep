@@ -2,7 +2,7 @@
 param location string = resourceGroup().location
 
 @description('Project tag value and resource name prefix.')
-param projectName string = 'sovereign-auth'
+param projectName string = 'agc-auth-helper'
 
 @allowed([
   'dev'

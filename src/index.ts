@@ -173,7 +173,7 @@ const server = createServer(async (request, response) => {
     if (url.pathname === "/healthz") {
       return sendJson(response, 200, {
         status: "ok",
-        service: "sovereign-auth-reference",
+        service: "agc-auth-helper",
       });
     }
 

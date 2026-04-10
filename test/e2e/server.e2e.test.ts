@@ -26,7 +26,7 @@ describe("GET /healthz", () => {
     assert.equal(res.status, 200);
     const body = await res.json();
     assert.equal(body.status, "ok");
-    assert.equal(body.service, "sovereign-auth-reference");
+    assert.equal(body.service, "agc-auth-helper");
   });
 });
 

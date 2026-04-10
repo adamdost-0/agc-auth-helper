@@ -6,7 +6,7 @@ nav_order: 6
 
 # Deployment
 
-This guide walks through deploying the sovereign-auth reference app to Azure Government and air-gapped Azure environments using the Bicep infrastructure-as-code template.
+This guide walks through deploying the agc-auth-helper reference app to Azure Government and air-gapped Azure environments using the Bicep infrastructure-as-code template.
 
 ## What Gets Deployed
 
@@ -64,7 +64,7 @@ Roles are assigned with least-privilege at resource scope, never at subscription
 Every resource receives compliance and governance tags:
 - `Environment` — dev, staging, or prod
 - `ManagedBy` — bicep, terraform, etc.
-- `Project` — Project name (e.g., "sovereign-auth")
+- `Project` — Project name (e.g., "agc-auth-helper")
 - `Owner` — Team or individual responsible
 - `Classification` — CUI, Secret, or TopSecret
 - `Compliance` — FedRAMP-High, IL4, IL5, IL6
@@ -119,7 +119,7 @@ All parameters are defined in `infra/main.parameters.example.json` and support e
 | Parameter | Type | Default | Description | Guidance |
 |-----------|------|---------|-------------|----------|
 | `location` | string | `resourceGroup().location` | Azure region for resources | **Must be a gov region:** `usgovvirginia`, `usgovarizona`, or `usgovtexas` for Azure Gov; `usgovvirginia2` for Gov Secret; custom region for Stack Hub |
-| `projectName` | string | `sovereign-auth` | Project name for resource naming and tags | Used in names: `vnet-{projectName}-{environment}`, `app-{projectName}-{environment}-{suffix}` |
+| `projectName` | string | `agc-auth-helper` | Project name for resource naming and tags | Used in names: `vnet-{projectName}-{environment}`, `app-{projectName}-{environment}-{suffix}` |
 | `environment` | string | `dev` | Environment tag and name component | Allowed: `dev`, `staging`, `prod` |
 | `managedBy` | string | `bicep` | ManagedBy tag value | E.g., `bicep`, `terraform`, `arm` |
 | `owner` | string | `platform-team` | Owner tag value | Team or on-call email |
@@ -198,18 +198,18 @@ az login
 
 # Create or verify your resource group
 az group create \
-  --name rg-sovereign-auth \
+  --name rg-agc-auth-helper \
   --location usgovvirginia
 
 # Deploy the Bicep template
 az deployment group create \
-  --resource-group rg-sovereign-auth \
+  --resource-group rg-agc-auth-helper \
   --template-file infra/main.bicep \
   --parameters @infra/main.parameters.example.json
 
 # Retrieve outputs
 az deployment group show \
-  --resource-group rg-sovereign-auth \
+  --resource-group rg-agc-auth-helper \
   --name main \
   --query properties.outputs
 ```
@@ -223,7 +223,7 @@ az cloud set --name AzureUSGovernmentSecret
 az login
 
 az group create \
-  --name rg-sovereign-auth \
+  --name rg-agc-auth-helper \
   --location usgovvirginia2
 
 # Create a parameters override file for Secret cloud
@@ -233,7 +233,7 @@ cat > secret-params.json << 'EOF'
   "contentVersion": "1.0.0.0",
   "parameters": {
     "location": { "value": "usgovvirginia2" },
-    "projectName": { "value": "sovereign-auth" },
+    "projectName": { "value": "agc-auth-helper" },
     "environment": { "value": "dev" },
     "cloudProfileName": { "value": "azure-us-government-secret" },
     "classification": { "value": "Secret" },
@@ -243,7 +243,7 @@ cat > secret-params.json << 'EOF'
 EOF
 
 az deployment group create \
-  --resource-group rg-sovereign-auth \
+  --resource-group rg-agc-auth-helper \
   --template-file infra/main.bicep \
   --parameters @secret-params.json
 ```
@@ -271,7 +271,7 @@ Then deploy with:
 
 ```bash
 az deployment group create \
-  --resource-group rg-sovereign-auth-dev \
+  --resource-group rg-agc-auth-helper-dev \
   --template-file infra/main.bicep \
   --parameters @infra/main.parameters.dev.json
 ```
@@ -318,7 +318,7 @@ cat > stack-params.json << 'EOF'
   "contentVersion": "1.0.0.0",
   "parameters": {
     "location": { "value": "<your-stack-region>" },
-    "projectName": { "value": "sovereign-auth" },
+    "projectName": { "value": "agc-auth-helper" },
     "environment": { "value": "dev" },
     "cloudProfileName": { "value": "<stack-profile>" },
     "blobPrivateDnsZoneName": { "value": "<stack-internal-dns-zone>" },
@@ -333,11 +333,11 @@ EOF
 
 ```bash
 az group create \
-  --name rg-sovereign-auth \
+  --name rg-agc-auth-helper \
   --location <your-stack-region>
 
 az deployment group create \
-  --resource-group rg-sovereign-auth \
+  --resource-group rg-agc-auth-helper \
   --template-file infra/main.json \
   --parameters @stack-params.json
 ```
@@ -353,31 +353,31 @@ After the template deploys successfully, configure the Web App with environment-
 ```bash
 # Retrieve the generated resource names
 az deployment group show \
-  --resource-group rg-sovereign-auth \
+  --resource-group rg-agc-auth-helper \
   --name main \
   --query properties.outputs \
   --output json
 ```
 
 Expected outputs:
-- `webAppName` — e.g., `app-sovereign-auth-dev-a1b2c3d4`
+- `webAppName` — e.g., `app-agc-auth-helper-dev-a1b2c3d4`
 - `storageAccount` — e.g., `stsovauthd1e2f3g4`
-- `keyVaultName` — e.g., `kv-sovereign-auth-dev-a1b2c3d4`
+- `keyVaultName` — e.g., `kv-agc-auth-helper-dev-a1b2c3d4`
 
 ### 2. Configure Application Settings
 
 The template pre-configures critical environment variables. Verify or add additional settings:
 
 ```bash
-WEB_APP_NAME="app-sovereign-auth-dev-a1b2c3d4"
+WEB_APP_NAME="app-agc-auth-helper-dev-a1b2c3d4"
 
 # View current app settings
-az webapp config appsettings list --name $WEB_APP_NAME --resource-group rg-sovereign-auth
+az webapp config appsettings list --name $WEB_APP_NAME --resource-group rg-agc-auth-helper
 
 # Add or update app settings as needed
 az webapp config appsettings set \
   --name $WEB_APP_NAME \
-  --resource-group rg-sovereign-auth \
+  --resource-group rg-agc-auth-helper \
   --settings \
     WEBSITE_RUN_FROM_PACKAGE=1 \
     AZURE_CLOUD=azure-us-government \
@@ -396,7 +396,7 @@ npm run build
 
 # Deploy using zip deployment
 az webapp deployment source config-zip \
-  --resource-group rg-sovereign-auth \
+  --resource-group rg-agc-auth-helper \
   --name $WEB_APP_NAME \
   --src dist/app.zip
 ```
@@ -409,11 +409,11 @@ Once deployed, test private endpoint connectivity:
 
 ```bash
 # SSH into the Web App container
-az webapp create-remote-connection --resource-group rg-sovereign-auth --name $WEB_APP_NAME
+az webapp create-remote-connection --resource-group rg-agc-auth-helper --name $WEB_APP_NAME
 
 # Inside the container, test connectivity to Storage and Key Vault:
 nslookup stsovauthd1e2f3g4.blob.core.usgovcloudapi.net
-nslookup kv-sovereign-auth-dev-a1b2c3d4.vault.usgovcloudapi.net
+nslookup kv-agc-auth-helper-dev-a1b2c3d4.vault.usgovcloudapi.net
 
 # Verify managed identity access
 curl -s http://169.254.169.254/metadata/identity/oauth2/token?api-version=2017-09-01&resource=https://vault.usgovcloudapi.net | jq .
@@ -426,7 +426,7 @@ Check the Log Analytics Workspace for application logs and metrics:
 ```bash
 # Query Web App logs
 az monitor log-analytics query \
-  --workspace /subscriptions/<sub-id>/resourcegroups/rg-sovereign-auth/providers/microsoft.operationalinsights/workspaces/log-sovereign-auth-dev-xxx \
+  --workspace /subscriptions/<sub-id>/resourcegroups/rg-agc-auth-helper/providers/microsoft.operationalinsights/workspaces/log-agc-auth-helper-dev-xxx \
   --analytics-query "AppServiceConsoleLogs | take 50"
 ```
 

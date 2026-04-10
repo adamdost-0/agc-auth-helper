@@ -12,7 +12,7 @@ function randomPort(): number {
 }
 
 /**
- * Spawns the sovereign-auth server in a child process with custom env vars.
+ * Spawns the agc-auth-helper server in a child process with custom env vars.
  * Waits for the "listening" log line, then returns the URL and a cleanup function.
  */
 export async function startTestServer(env: Record<string, string> = {}): Promise<TestServer> {

@@ -92,7 +92,7 @@ const token = await credential.getToken(
 
 ### Auto-Detection (This Repo's Pattern)
 
-From [`src/auth/credentialFactory.ts`](https://github.com/adamdost-0/soverign-auth/blob/main/src/auth/credentialFactory.ts):
+From [`src/auth/credentialFactory.ts`](https://github.com/adamdost-0/agc-auth-helper/blob/main/src/auth/credentialFactory.ts):
 
 ```typescript
 import { AzureAuthorityHosts } from "@azure/identity";

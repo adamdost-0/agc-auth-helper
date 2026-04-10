@@ -1,6 +1,6 @@
-title: "Sovereign Auth Guide"
+title: "AGC Auth Helper"
 description: "Air-gap friendly authentication patterns for Azure Stack Hub, Azure Government Secret, and Azure Government Top Secret"
-baseurl: "/soverign-auth"
+baseurl: "/agc-auth-helper"
 url: "https://adamdost-0.github.io"
 
 remote_theme: just-the-docs/just-the-docs@v0.10.1
@@ -9,7 +9,7 @@ color_scheme: dark
 
 aux_links:
   "View on GitHub":
-    - "https://github.com/adamdost-0/soverign-auth"
+    - "https://github.com/adamdost-0/agc-auth-helper"
 
 nav_order_start: 1
 
@@ -21,7 +21,7 @@ search.heading_level: 3
 back_to_top: true
 back_to_top_text: "Back to top"
 
-footer_content: "sovereign-auth — Air-gap friendly Azure authentication patterns"
+footer_content: "agc-auth-helper — Air-gap friendly Azure authentication patterns"
 
 callouts:
   warning:

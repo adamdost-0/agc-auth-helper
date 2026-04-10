@@ -45,8 +45,8 @@ This reference app demonstrates the complete pattern with a working implementati
 ## Quick start
 
 ```bash
-git clone https://github.com/adamdost-0/soverign-auth.git
-cd soverign-auth
+git clone https://github.com/adamdost-0/agc-auth-helper.git
+cd agc-auth-helper
 npm install
 cp .env.example .env
 # Edit .env with your cloud and auth settings

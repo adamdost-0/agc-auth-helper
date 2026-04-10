@@ -1,6 +1,6 @@
 # Squad Team
 
-> soverign-auth
+> agc-auth-helper
 
 ## Coordinator
 
@@ -15,5 +15,5 @@
 
 ## Project Context
 
-- **Project:** soverign-auth
+- **Project:** agc-auth-helper
 - **Created:** 2026-04-09

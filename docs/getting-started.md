@@ -6,7 +6,7 @@ nav_order: 2
 
 # Getting Started
 
-This guide walks you through setting up and running the sovereign-auth reference app locally or deploying it to Azure Government, Azure Government Secret/Top Secret, or AzureStack Hub environments.
+This guide walks you through setting up and running the agc-auth-helper reference app locally or deploying it to Azure Government, Azure Government Secret/Top Secret, or AzureStack Hub environments.
 
 ## Prerequisites
 
@@ -28,8 +28,8 @@ Before you begin, ensure you have:
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/adamdost-0/sovereign-auth.git
-   cd sovereign-auth
+   git clone https://github.com/adamdost-0/agc-auth-helper.git
+   cd agc-auth-helper
    ```
 
 2. Install dependencies:

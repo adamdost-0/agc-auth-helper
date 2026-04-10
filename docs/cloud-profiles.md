@@ -144,7 +144,7 @@ Create a file (e.g., `my-azurestack-profile.json`) matching the structure below:
 ### Step 2: Place the File
 
 Save the JSON file in a location accessible to your application, e.g.:
-- `/etc/sovereign-auth/profiles/my-azurestack.json` (production)
+- `/etc/agc-auth-helper/profiles/my-azurestack.json` (production)
 - `./cloud-profiles/my-custom.json` (development)
 - Any path reachable by the application
 
@@ -153,7 +153,7 @@ Save the JSON file in a location accessible to your application, e.g.:
 Set the `CUSTOM_CLOUD_PROFILE_PATH` environment variable to point to your custom profile:
 
 ```bash
-export CUSTOM_CLOUD_PROFILE_PATH=/etc/sovereign-auth/profiles/my-azurestack-profile.json
+export CUSTOM_CLOUD_PROFILE_PATH=/etc/agc-auth-helper/profiles/my-azurestack-profile.json
 npm start
 ```
 
@@ -163,7 +163,7 @@ Or pass it programmatically:
 import { resolveCloudProfile } from "./src/config/cloudProfile";
 
 const profile = resolveCloudProfile({
-  customProfilePath: "/etc/sovereign-auth/profiles/my-azurestack-profile.json"
+  customProfilePath: "/etc/agc-auth-helper/profiles/my-azurestack-profile.json"
 });
 ```
 
@@ -383,9 +383,9 @@ AZURE_CLOUD=azure-commercial
 
 **Example 3: Custom profile (highest priority)**
 ```
-CUSTOM_CLOUD_PROFILE_PATH=/etc/sovereign-auth/my-azurestack.json
+CUSTOM_CLOUD_PROFILE_PATH=/etc/agc-auth-helper/my-azurestack.json
 AZURE_CLOUD=azure-commercial
-→ Resolves to: /etc/sovereign-auth/my-azurestack.json
+→ Resolves to: /etc/agc-auth-helper/my-azurestack.json
    (AZURE_CLOUD is ignored)
 ```
 

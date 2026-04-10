@@ -80,7 +80,7 @@ export function shouldDisableInstanceDiscovery(authorityHost: string): boolean {
 
 ## How the Reference App Handles It
 
-The `createCredentialPlan()` function in [`src/auth/credentialFactory.ts`](https://github.com/adamdost-0/soverign-auth/blob/main/src/auth/credentialFactory.ts) applies the auto-detection to every credential that accepts the option:
+The `createCredentialPlan()` function in [`src/auth/credentialFactory.ts`](https://github.com/adamdost-0/agc-auth-helper/blob/main/src/auth/credentialFactory.ts) applies the auto-detection to every credential that accepts the option:
 
 ```typescript
 case "clientSecret": {

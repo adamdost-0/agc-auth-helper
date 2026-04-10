@@ -1,6 +1,6 @@
 # Project Context
 
-- **Project:** soverign-auth
+- **Project:** agc-auth-helper
 - **Created:** 2026-04-09
 
 ## Core Context
