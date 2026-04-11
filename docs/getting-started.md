@@ -65,10 +65,10 @@ For Azure Air-Gap clouds, the biggest setup issue is usually missing environment
 
 | Value | Why it matters | Example |
 |------|----------------|---------|
-| `authorityHost` | Passed to `@azure/identity` so Entra ID / ADFS token requests go to the correct authority | `https://login.<tenant-name>.usgovcloudapi.net/` |
-| `resourceManagerEndpoint` | Base URL for ARM REST calls | `https://management.<tenant-name>.usgovcloudapi.net/` |
-| `resourceManagerAudience` | Audience used to request ARM tokens. It may look the same as the ARM endpoint, but it is used to build the `/.default` scope rather than the REST URL. | Often the same string as the endpoint, for example `https://management.<tenant-name>.usgovcloudapi.net/` |
-| Service DNS suffixes | Used to construct Storage, Key Vault, SQL, and ACR hostnames | `.blob.core.secret.contoso.internal` |
+| `authorityHost` | Passed to `@azure/identity` so Entra ID / ADFS token requests go to the correct authority | `https://login.<cloud-domain>/` |
+| `resourceManagerEndpoint` | Base URL for ARM REST calls | `https://management.<cloud-domain>/` |
+| `resourceManagerAudience` | Audience used to request ARM tokens. It may look the same as the ARM endpoint, but it is used to build the `/.default` scope rather than the REST URL. | Often the same string as the endpoint, for example `https://management.<cloud-domain>/` |
+| Service DNS suffixes | Used to construct Storage, Key Vault, SQL, and ACR hostnames | `.blob.core.<cloud-domain>` |
 | Tenant and app identity values | Required for `clientSecret`, `deviceCode`, or workload federation flows | Tenant ID, client ID, secret, or federated token file |
 
 > The built-in Secret, Top Secret, and Azure Stack profiles are templates. Treat them as examples until you replace the placeholder endpoints with real values from your environment.
