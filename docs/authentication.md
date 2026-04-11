@@ -54,6 +54,22 @@ The result: a cryptic MSAL error before your app ever attempts to authenticate.
 | Azure Gov Top Secret (TS/SCI) | Enclave-specific | **`true`** | Air-gapped; no public internet access |
 | Custom Cloud | User-provided | **`true`** | Unknown to public directory |
 
+## What You Need from the Cloud Operator
+
+Many developer issues are documentation gaps, not SDK bugs. Before writing code, make sure you have the exact values below for the target cloud:
+
+| Value | Used for | Why developers need it |
+|-------|----------|------------------------|
+| `authorityHost` | Credential constructor options | Tells `@azure/identity` where to request tokens |
+| `resourceManagerEndpoint` | ARM client base URL | Determines where management-plane REST calls go |
+| `resourceManagerAudience` | Token scope input | Determines which audience the ARM token is minted for |
+| Service DNS suffixes | Storage / Key Vault / SQL / ACR hostnames | Prevents service URLs from defaulting to public cloud DNS |
+| Tenant ID | All Entra ID-based credentials | Ensures the token request goes to the correct tenant or ADFS realm |
+| CLI cloud registration details | `AzureCliCredential` setup | Lets `az login` and `AzureCliCredential` target the same air-gap cloud |
+
+> A surprisingly common gap is mixing up the ARM endpoint and ARM audience. In many clouds they look similar, but they serve different purposes: the endpoint is the REST base URL, while the audience becomes the `/.default` scope used to request tokens.
+{: .important }
+
 ### Auto-detection logic
 
 The reference app determines this automatically. If the authority host is one of the three well-known `AzureAuthorityHosts` values, instance discovery stays enabled. For everything else, it's disabled:
@@ -103,6 +119,21 @@ Two credential types are **exempt**:
 
 - **`ManagedIdentityCredential`** — Uses IMDS or platform-specific token endpoints, never contacts an authority host directly
 - **`AzureCliCredential`** — Delegates authority handling to the Azure CLI, which manages its own cloud configuration via `az cloud set`
+
+## Developer Checklist for Azure Air-Gap Clouds
+
+Use this checklist when adapting application code to a new enclave or Azure Stack deployment:
+
+1. **Start with a cloud profile**, not hardcoded strings.
+2. **Confirm whether the authority host is well-known**. If it is not one of the built-in `AzureAuthorityHosts` values, expect `disableInstanceDiscovery: true`.
+3. **Build scopes from audiences**, not endpoints:
+   - Audience: `https://management.contoso.internal/`
+   - Scope: `https://management.contoso.internal/.default`
+4. **Prefer platform credentials in production**:
+   - `ManagedIdentityCredential` for App Service, VM, AKS node/pod identities
+   - `WorkloadIdentityCredential` for federated Kubernetes identities
+5. **Use `AzureCliCredential` only after the CLI cloud is registered and selected**.
+6. **Validate with a simple ARM token request before testing downstream services** like Storage or Key Vault.
 
 ---
 
@@ -425,6 +456,15 @@ When `disableInstanceDiscovery` is `true`, MSAL adds your authority host to its 
 **Cause**: The token audience doesn't match what the target service expects. This often happens when the ARM audience is hardcoded to the public cloud value.
 
 **Fix**: Use the audience from your cloud profile's `resourceManagerAudience` or discover it dynamically from the metadata endpoint. Ensure you append `/.default` to form the scope.
+
+### The SDK works in public cloud but fails in a Secret, Top Secret, or Azure Stack cloud
+
+**Cause**: One of the environment-specific values is still using a public-cloud default or a placeholder from the sample profiles.
+
+**Fix**:
+1. Compare `authorityHost`, `resourceManagerEndpoint`, and `resourceManagerAudience` against the values provided by the cloud operator.
+2. Confirm the credential type actually supports `authorityHost` and `disableInstanceDiscovery`.
+3. Re-run the app and inspect `/api/profile` before debugging network traffic.
 
 ### "AADSTS50049: Unknown or invalid instance"
 

@@ -431,7 +431,7 @@ When creating credentials, instance discovery is automatically disabled for:
 
 3. **For multi-cloud support**: Store custom profiles in version control (without secrets) and use `CUSTOM_CLOUD_PROFILE_PATH` to select them at runtime.
 
-4. **For air-gapped environments**: Avoid using the metadata endpoint (it requires internet). Use static profiles instead.
+4. **For air-gapped environments**: Prefer static profiles when the ARM metadata endpoint is unavailable or not approved. If your cloud exposes `metadata/endpoints` on the internal management network, you can use it without public internet access.
 
 5. **For testing**: Override specific endpoints with env vars without creating new profile files.
 
@@ -491,6 +491,6 @@ ajv validate -s cloud-profiles/schema.json -d my-custom-profile.json
 
 ## See Also
 
-- [Cloud Configuration](./docs/configuration.md) — Environment variable reference
-- [Authentication](./docs/authentication.md) — How to authenticate against different Azure clouds
-- [Deployment](./docs/deployment.md) — Deploying to Azure Government and air-gapped environments
+- [Getting Started](./getting-started.md) — Local setup and the recommended developer workflow
+- [Authentication](./authentication.md) — How to authenticate against different Azure clouds
+- [Deployment](./deployment.md) — Deploying to Azure Government and air-gapped environments

@@ -43,7 +43,7 @@ Before you begin, ensure you have:
    cp .npmrc.example .npmrc
    npm install
    ```
-   See [Air-Gap Patterns](../infra/air-gap.md) for detailed registry setup.
+   This repository does not include a separate package-mirror guide, so use the registry URL and certificate chain approved by your enclave or platform team.
 
 ## Configure Your Environment
 
@@ -58,6 +58,21 @@ cp .env.example .env
 Edit `.env` and set:
 - `AZURE_CLOUD` — Which cloud to target
 - `AUTH_MODE` — How to authenticate locally
+
+### Step 3: Collect the Cloud Values Before Writing Code
+
+For Azure Air-Gap clouds, the biggest setup issue is usually missing environment-specific values. Ask your cloud operator or platform team for the following before you start debugging the SDK:
+
+| Value | Why it matters | Example |
+|------|----------------|---------|
+| `authorityHost` | Passed to `@azure/identity` so Entra ID / ADFS token requests go to the correct authority | `https://login.tenantname.usgovcloudapi.net/` |
+| `resourceManagerEndpoint` | Base URL for ARM REST calls | `https://management.tenantname.usgovcloudapi.net/` |
+| `resourceManagerAudience` | Audience used to request ARM tokens | `https://management.tenantname.usgovcloudapi.net/` |
+| Service DNS suffixes | Used to construct Storage, Key Vault, SQL, and ACR hostnames | `.blob.core.secret.contoso.internal` |
+| Tenant and app identity values | Required for `clientSecret`, `deviceCode`, or workload federation flows | Tenant ID, client ID, secret, or federated token file |
+
+> The built-in Secret, Top Secret, and Azure Stack profiles are templates. Treat them as examples until you replace the placeholder endpoints with real values from your environment.
+{: .warning }
 
 ### Azure Government (IL4)
 
@@ -199,6 +214,28 @@ Visit **http://localhost:3000/api/diagnostics** to verify:
 - Token acquisition status
 - Identity (tenant, client, subscription)
 
+## Recommended Developer Workflow for Azure Air-Gap Clouds
+
+Use this sequence when bringing up a new cloud or enclave:
+
+1. **Resolve the cloud profile first** — confirm `authorityHost`, `resourceManagerEndpoint`, and `resourceManagerAudience` are the values your operator provided.
+2. **Choose the right credential mode**:
+   - `azureCli` for local dev in Azure Government or in a registered custom CLI cloud
+   - `deviceCode` when you need interactive sign-in against a custom authority host
+   - `clientSecret` for controlled integration testing
+   - `managedIdentity` or `workloadIdentity` for deployed workloads
+3. **Run the app and inspect `/api/profile`** before attempting service calls.
+4. **Run the smoke test** for the selected cloud profile:
+   ```bash
+   npm run smoke-test -- --cloud <cloud-name>
+   ```
+5. **Only then test token acquisition**:
+   ```bash
+   AUTH_MODE=clientSecret npm run smoke-test -- --check-token --cloud <cloud-name>
+   ```
+
+This catches bad profile data early and avoids misdiagnosing a cloud-profile issue as an SDK issue.
+
 ## Run Tests
 
 ### Unit Tests
@@ -305,6 +342,6 @@ CUSTOM_CLOUD_PROFILE_PATH=./my-custom-profile.json
 ## Next Steps
 
 - **[Deployment](./deployment.md)** — Deploy to App Service with Bicep
-- **[Architecture](./architecture.md)** — Understand the reference design
-- **[Air-Gap Patterns](../infra/air-gap.md)** — Setup for disconnected environments
-- **[Cloud Profiles](../cloud-profiles/README.md)** — Reference for all cloud endpoints
+- **[Cloud Profiles](./cloud-profiles.md)** — Review the cloud profile model, overrides, and validation rules
+- **[Authentication](./authentication.md)** — Understand when `disableInstanceDiscovery` is required and which values each credential uses
+- **[Code Snippets](./code-snippets.md)** — Copy the language-specific `azure-identity` pattern into your own app

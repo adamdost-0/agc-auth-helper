@@ -32,13 +32,23 @@ Set `disableInstanceDiscovery: true` on credential constructors and provide expl
 
 This reference app demonstrates the complete pattern with a working implementation.
 
+## Where developers usually get stuck
+
+Teams new to Azure Air-Gap clouds usually need more than the one-line `disableInstanceDiscovery` fix. They also need to know:
+
+- **Which values come from the cloud operator** — authority host, ARM endpoint, ARM audience, DNS suffixes, and tenant IDs
+- **Which credential types need special handling** — `ClientSecretCredential`, `WorkloadIdentityCredential`, and `DeviceCodeCredential` do; `ManagedIdentityCredential` and `AzureCliCredential` do not
+- **How to tell endpoint, audience, and scope apart** — the ARM REST base URL, token audience, and `/.default` scope are related but not interchangeable
+- **How to validate a cloud profile before writing app code** — resolve the profile, inspect `/api/profile`, and run the smoke test before debugging token failures
+- **What is placeholder data vs. deployable data** — the Secret, Top Secret, and Azure Stack built-in profiles are templates and must be replaced with environment-specific values
+
 ## What you'll find here
 
 | Guide | Description |
 |-------|-------------|
 | [Getting Started](getting-started) | Clone, configure, and run the reference app |
 | [Cloud Profiles](cloud-profiles) | The cloud profile model — endpoints, audiences, DNS suffixes |
-| [Authentication](authentication) | `disableInstanceDiscovery`, credential types, ARM metadata discovery |
+| [Authentication](authentication) | `disableInstanceDiscovery`, credential types, required values, and ARM metadata discovery |
 | [Code Snippets](code-snippets) | Copy-paste code for `azure-identity` in TypeScript, Python, .NET, Go, and CLI |
 | [Deployment](deployment) | Bicep infrastructure with private endpoints and managed identity |
 
