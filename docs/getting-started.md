@@ -65,9 +65,9 @@ For Azure Air-Gap clouds, the biggest setup issue is usually missing environment
 
 | Value | Why it matters | Example |
 |------|----------------|---------|
-| `authorityHost` | Passed to `@azure/identity` so Entra ID / ADFS token requests go to the correct authority | `https://login.tenantname.usgovcloudapi.net/` |
-| `resourceManagerEndpoint` | Base URL for ARM REST calls | `https://management.tenantname.usgovcloudapi.net/` |
-| `resourceManagerAudience` | Audience used to request ARM tokens | `https://management.tenantname.usgovcloudapi.net/` |
+| `authorityHost` | Passed to `@azure/identity` so Entra ID / ADFS token requests go to the correct authority | `https://login.<tenant-name>.usgovcloudapi.net/` |
+| `resourceManagerEndpoint` | Base URL for ARM REST calls | `https://management.<tenant-name>.usgovcloudapi.net/` |
+| `resourceManagerAudience` | Audience used to request ARM tokens. It may look the same as the ARM endpoint, but it is used to build the `/.default` scope rather than the REST URL. | `https://management.<tenant-name>.usgovcloudapi.net/` |
 | Service DNS suffixes | Used to construct Storage, Key Vault, SQL, and ACR hostnames | `.blob.core.secret.contoso.internal` |
 | Tenant and app identity values | Required for `clientSecret`, `deviceCode`, or workload federation flows | Tenant ID, client ID, secret, or federated token file |
 
