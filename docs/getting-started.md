@@ -152,6 +152,41 @@ AUTH_MODE=clientSecret
 }
 ```
 
+### Private CA trust for AzureStack Hub and custom clouds
+
+If your `AZURE_AUTHORITY_HOST`, ARM endpoint, or storage endpoint uses a certificate issued by a private root CA, the container must trust that CA before `@azure/identity` can acquire tokens. Put the root/intermediate CA chain in a local PEM file and mount it with the private CA Compose override:
+
+```bash
+cp .env.docker.example .env.docker.local
+mkdir -p certs
+# Copy your approved CA chain to certs/private-cloud-ca.pem.
+```
+
+```bash
+# .env.docker.local
+AZURE_CLOUD=azurestack-custom
+AUTH_MODE=clientSecret
+AZURE_TENANT_ID=<stack-tenant-id>
+AZURE_CLIENT_ID=<service-principal-client-id>
+AZURE_CLIENT_SECRET=<service-principal-secret>
+AZURE_SUBSCRIPTION_ID=<stack-subscription-id>
+
+AZURE_AUTHORITY_HOST=https://login.mystack.contoso.local/
+AZURE_RESOURCE_MANAGER_ENDPOINT=https://management.mystack.contoso.local/
+AZURE_RESOURCE_MANAGER_AUDIENCE=https://management.mystack.contoso.local/
+
+AGC_AUTH_HELPER_CA_BUNDLE=./certs/private-cloud-ca.pem
+```
+
+```bash
+docker compose --env-file .env.docker.local \
+  -f docker-compose.yml \
+  -f docker-compose.private-ca.yml \
+  up --build
+```
+
+The override bind-mounts the PEM at `/etc/agc/certs/private-cloud-ca.pem` and sets `NODE_EXTRA_CA_CERTS` before Node.js starts. Do not use `NODE_TLS_REJECT_UNAUTHORIZED=0`; it disables TLS validation globally.
+
 ## Run the App
 
 Start the development server:

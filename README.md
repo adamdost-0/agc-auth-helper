@@ -42,6 +42,34 @@ cp .env.example .env
 npm run dev
 ```
 
+## Local Docker Compose
+
+For local Azure Commercial testing, seed container-only credentials from an ignored env file:
+
+```bash
+cp .env.docker.example .env.docker.local
+# Fill in tenant, client, secret, subscription, and optional storage account values.
+docker compose --env-file .env.docker.local up --build
+```
+
+Open <http://localhost:3000>. The example env file sets `AZURE_CLOUD=azure-commercial` and `AUTH_MODE=clientSecret`; no Azure Commercial endpoint overrides are required.
+
+For Azure Stack Hub or custom Azure clouds whose login, ARM, or data-plane endpoints use a private CA, place the root/intermediate CA chain in a local PEM file and enable the private CA override:
+
+```bash
+# In .env.docker.local:
+# AZURE_CLOUD=azurestack-custom
+# AZURE_AUTHORITY_HOST=https://login.mystack.contoso.local/
+# AZURE_RESOURCE_MANAGER_ENDPOINT=https://management.mystack.contoso.local/
+# AZURE_RESOURCE_MANAGER_AUDIENCE=https://management.mystack.contoso.local/
+# AGC_AUTH_HELPER_CA_BUNDLE=./certs/private-cloud-ca.pem
+
+docker compose --env-file .env.docker.local \
+  -f docker-compose.yml \
+  -f docker-compose.private-ca.yml \
+  up --build
+```
+
 ## Documentation
 
 - [Getting Started](https://adamdost-0.github.io/agc-auth-helper/getting-started) — Local dev setup and cloud selection

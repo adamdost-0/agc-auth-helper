@@ -215,6 +215,42 @@ Not all credential types interact with authority hosts the same way. Use this ma
 
 ---
 
+## Private CA Trust for Custom Login Endpoints
+
+Disabling instance discovery solves the MSAL authority validation problem, but it does **not** bypass TLS validation. If your custom `authorityHost` uses a certificate issued by an internal or enclave-specific CA, Node.js must trust that root/intermediate CA chain before `ClientSecretCredential`, `WorkloadIdentityCredential`, or `DeviceCodeCredential` can acquire a token.
+
+For the containerized app, mount the private CA chain as a PEM file and set `NODE_EXTRA_CA_CERTS` at process startup:
+
+```yaml
+# docker-compose.private-ca.yml
+services:
+  agc-auth-helper:
+    environment:
+      NODE_EXTRA_CA_CERTS: /etc/agc/certs/private-cloud-ca.pem
+    volumes:
+      - type: bind
+        source: ${AGC_AUTH_HELPER_CA_BUNDLE}
+        target: /etc/agc/certs/private-cloud-ca.pem
+        read_only: true
+```
+
+Run it with:
+
+```bash
+AGC_AUTH_HELPER_CA_BUNDLE=./certs/private-cloud-ca.pem \
+docker compose --env-file .env.docker.local \
+  -f docker-compose.yml \
+  -f docker-compose.private-ca.yml \
+  up --build
+```
+
+The PEM should contain the approved issuing chain for the private login, management, and data-plane endpoints. `NODE_EXTRA_CA_CERTS` is read only when Node.js starts, so changing the file requires restarting the container.
+
+> Do **not** set `NODE_TLS_REJECT_UNAUTHORIZED=0`. That disables certificate validation for every outbound HTTPS request and removes the protection that the private CA chain is meant to preserve.
+{: .warning }
+
+---
+
 ## ADFS Support on Azure Stack Hub
 
 Azure Stack Hub deployments can use either **Microsoft Entra ID** or **Active Directory Federation Services (ADFS)** as their identity provider.

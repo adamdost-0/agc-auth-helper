@@ -1,6 +1,9 @@
 node_modules/
 dist/
 .env
+.env.docker.local
+certs/*
+!certs/.gitkeep
 .DS_Store
 # Squad: ignore runtime state (logs, inbox, sessions)
 .squad/orchestration-log/

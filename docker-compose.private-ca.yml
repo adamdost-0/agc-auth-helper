@@ -1,0 +1,9 @@
+services:
+  agc-auth-helper:
+    environment:
+      NODE_EXTRA_CA_CERTS: /etc/agc/certs/private-cloud-ca.pem
+    volumes:
+      - type: bind
+        source: ${AGC_AUTH_HELPER_CA_BUNDLE:?Set AGC_AUTH_HELPER_CA_BUNDLE to the private root CA bundle PEM path}
+        target: /etc/agc/certs/private-cloud-ca.pem
+        read_only: true

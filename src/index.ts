@@ -31,6 +31,12 @@ function sendHtml(response: ServerResponse, html: string): void {
   response.end(html);
 }
 
+function summarizeTlsTrust(): Record<string, boolean> {
+  return {
+    customCaBundleConfigured: Boolean(process.env.NODE_EXTRA_CA_CERTS?.trim()),
+  };
+}
+
 function resolveRequestCloud(url: URL) {
   return resolveCloudProfile({
     name: url.searchParams.get("cloud") ?? appConfig.defaultCloud,
@@ -63,16 +69,17 @@ async function handleApiRequest(request: IncomingMessage, response: ServerRespon
 
   if (url.pathname === "/api/diagnostics") {
     const probe = url.searchParams.get("probe") === "true";
-    const diagnostics: Record<string, unknown> = {
-      ok: true,
-      cloudProfile: summarizeCloudProfile(cloudProfile),
-      auth: {
-        mode: credentialPlan.mode,
-        credential: credentialPlan.label,
-        guidance: credentialPlan.guidance,
-      },
-      requestIdentity: resolveRequestIdentity(request.headers),
-    };
+      const diagnostics: Record<string, unknown> = {
+        ok: true,
+        cloudProfile: summarizeCloudProfile(cloudProfile),
+        auth: {
+          mode: credentialPlan.mode,
+          credential: credentialPlan.label,
+          guidance: credentialPlan.guidance,
+        },
+        tls: summarizeTlsTrust(),
+        requestIdentity: resolveRequestIdentity(request.headers),
+      };
 
     if (probe) {
       try {

@@ -429,13 +429,15 @@ When creating credentials, instance discovery is automatically disabled for:
 
 2. **For Docker/Kubernetes deployments**: Use built-in profiles with environment variable overrides to avoid rebuilding images for different clouds.
 
-3. **For multi-cloud support**: Store custom profiles in version control (without secrets) and use `CUSTOM_CLOUD_PROFILE_PATH` to select them at runtime.
+3. **For private CA endpoints**: Mount the approved CA chain and set `NODE_EXTRA_CA_CERTS` before Node.js starts. The supplied `docker-compose.private-ca.yml` override wires this for local container testing.
 
-4. **For air-gapped environments**: Avoid using the metadata endpoint (it requires internet). Use static profiles instead.
+4. **For multi-cloud support**: Store custom profiles in version control (without secrets) and use `CUSTOM_CLOUD_PROFILE_PATH` to select them at runtime.
 
-5. **For testing**: Override specific endpoints with env vars without creating new profile files.
+5. **For air-gapped environments**: Avoid using the metadata endpoint (it requires internet). Use static profiles instead.
 
-6. **Validate early**: If you have custom profiles, validate them in CI/CD before deploying to production.
+6. **For testing**: Override specific endpoints with env vars without creating new profile files.
+
+7. **Validate early**: If you have custom profiles, validate them in CI/CD before deploying to production.
 
 ## Examples
 
