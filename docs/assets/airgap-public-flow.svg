@@ -50,6 +50,9 @@
   <path d="M452 226 C492 268 504 303 542 305" stroke="#7dd3fc" stroke-width="5" fill="none" marker-end="url(#arrow)" />
   <path d="M740 306 C775 300 789 276 795 254" stroke="#7dd3fc" stroke-width="5" fill="none" marker-end="url(#arrow)" />
 
-  <rect x="64" y="365" width="832" height="48" rx="16" fill="#082f49" stroke="#38bdf8" stroke-width="2" />
-  <text x="480" y="396" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#e0f2fe">No special map needed: public Azure endpoints, audiences, and discovery all work from the open internet.</text>
+  <rect x="140" y="356" width="680" height="66" rx="16" fill="#082f49" stroke="#38bdf8" stroke-width="2" />
+  <text x="480" y="382" text-anchor="middle" font-family="Arial, sans-serif" font-size="15" fill="#e0f2fe">
+    <tspan x="480" dy="0">Public Azure defaults work because discovery, identity,</tspan>
+    <tspan x="480" dy="22">and service endpoints are reachable from the app.</tspan>
+  </text>
 </svg>

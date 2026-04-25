@@ -52,6 +52,9 @@
   <path d="M442 255 C471 276 486 300 502 300" stroke="#fca5a5" stroke-width="5" fill="none" marker-end="url(#arrow)" />
   <text x="572" y="237" text-anchor="middle" font-family="Arial, sans-serif" font-size="56" font-weight="700" fill="#fecaca">X</text>
 
-  <rect x="78" y="383" width="805" height="46" rx="16" fill="#450a0a" stroke="#fca5a5" stroke-width="2" />
-  <text x="480" y="412" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#fee2e2">Impact: token acquisition fails before ARM or Storage calls because public discovery and endpoints are unreachable.</text>
+  <rect x="140" y="374" width="680" height="66" rx="16" fill="#450a0a" stroke="#fca5a5" stroke-width="2" />
+  <text x="480" y="400" text-anchor="middle" font-family="Arial, sans-serif" font-size="15" fill="#fee2e2">
+    <tspan x="480" dy="0">Impact: token acquisition fails before ARM or Storage calls</tspan>
+    <tspan x="480" dy="22">because public discovery and endpoints are unreachable.</tspan>
+  </text>
 </svg>

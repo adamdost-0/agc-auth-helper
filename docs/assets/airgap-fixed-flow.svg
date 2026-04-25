@@ -56,12 +56,18 @@
   <path d="M616 260 C638 290 650 295 666 295" stroke="#86efac" stroke-width="5" fill="none" marker-end="url(#arrow)" />
 
   <g>
-    <rect x="72" y="356" width="790" height="52" rx="18" fill="#064e3b" stroke="#6ee7b7" stroke-width="2" />
-    <text x="467" y="387" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#d1fae5">Impact: every arrow stays inside the air gap, and each Azure request uses the right private address and token audience.</text>
+    <rect x="150" y="350" width="660" height="66" rx="18" fill="#064e3b" stroke="#6ee7b7" stroke-width="2" />
+    <text x="480" y="376" text-anchor="middle" font-family="Arial, sans-serif" font-size="15" fill="#d1fae5">
+      <tspan x="480" dy="0">Impact: every request stays inside the private network</tspan>
+      <tspan x="480" dy="22">and uses the correct private address and token audience.</tspan>
+    </text>
   </g>
 
   <g transform="translate(76 454)">
-    <rect x="0" y="0" width="808" height="38" rx="14" fill="#14532d" stroke="#86efac" stroke-width="2" />
-    <text x="404" y="25" text-anchor="middle" font-family="Arial, sans-serif" font-size="15" fill="#dcfce7">The required change is explicit cloud configuration plus skipping public instance discovery for private authorities.</text>
+    <rect x="74" y="-6" width="660" height="56" rx="14" fill="#14532d" stroke="#86efac" stroke-width="2" />
+    <text x="404" y="16" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#dcfce7">
+      <tspan x="404" dy="0">Required change: explicit cloud configuration plus</tspan>
+      <tspan x="404" dy="20">skipping public instance discovery for private authorities.</tspan>
+    </text>
   </g>
 </svg>
