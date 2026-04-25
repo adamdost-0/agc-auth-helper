@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="460" viewBox="0 0 960 460" role="img" aria-labelledby="title desc">
+  <title id="title">Public Azure default authentication flow</title>
+  <desc id="desc">A simple diagram showing an app using the Azure SDK to check Microsoft's public discovery service, sign in with public Entra ID, and call public Azure services.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#7dd3fc" />
+    </marker>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#020617" flood-opacity="0.35" />
+    </filter>
+  </defs>
+  <rect width="960" height="460" rx="28" fill="#0f172a" />
+  <text x="480" y="46" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#e0f2fe">Normal public Azure: the roads are open</text>
+  <text x="480" y="78" text-anchor="middle" font-family="Arial, sans-serif" font-size="17" fill="#bae6fd">Kid version: the app asks the public helper where Azure lives, then drives on the public road.</text>
+
+  <g filter="url(#shadow)">
+    <rect x="52" y="155" width="150" height="96" rx="20" fill="#1e293b" stroke="#38bdf8" stroke-width="3" />
+    <text x="127" y="192" text-anchor="middle" font-family="Arial, sans-serif" font-size="20" font-weight="700" fill="#f8fafc">Your app</text>
+    <text x="127" y="222" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#cbd5e1">wants a token</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="290" y="145" width="160" height="116" rx="20" fill="#164e63" stroke="#67e8f9" stroke-width="3" />
+    <text x="370" y="185" text-anchor="middle" font-family="Arial, sans-serif" font-size="19" font-weight="700" fill="#ecfeff">Azure SDK</text>
+    <text x="370" y="214" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#cffafe">uses defaults</text>
+    <text x="370" y="236" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#cffafe">for public Azure</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="548" y="105" width="190" height="92" rx="18" fill="#14532d" stroke="#86efac" stroke-width="3" />
+    <text x="643" y="139" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="700" fill="#f0fdf4">Public discovery</text>
+    <text x="643" y="166" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#dcfce7">"Is this login door OK?"</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="548" y="260" width="190" height="92" rx="18" fill="#1d4ed8" stroke="#93c5fd" stroke-width="3" />
+    <text x="643" y="294" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="700" fill="#eff6ff">Public Entra ID</text>
+    <text x="643" y="321" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#dbeafe">gives the token</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="795" y="182" width="120" height="112" rx="20" fill="#312e81" stroke="#c4b5fd" stroke-width="3" />
+    <text x="855" y="221" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="700" fill="#f5f3ff">Azure</text>
+    <text x="855" y="249" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#ddd6fe">ARM</text>
+    <text x="855" y="271" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#ddd6fe">Storage</text>
+  </g>
+
+  <path d="M205 203 H285" stroke="#7dd3fc" stroke-width="5" fill="none" marker-end="url(#arrow)" />
+  <path d="M452 180 C488 150 508 148 542 150" stroke="#7dd3fc" stroke-width="5" fill="none" marker-end="url(#arrow)" />
+  <path d="M452 226 C492 268 504 303 542 305" stroke="#7dd3fc" stroke-width="5" fill="none" marker-end="url(#arrow)" />
+  <path d="M740 306 C775 300 789 276 795 254" stroke="#7dd3fc" stroke-width="5" fill="none" marker-end="url(#arrow)" />
+
+  <rect x="64" y="365" width="832" height="48" rx="16" fill="#082f49" stroke="#38bdf8" stroke-width="2" />
+  <text x="480" y="396" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#e0f2fe">No special map needed: public Azure endpoints, audiences, and discovery all work from the open internet.</text>
+</svg>

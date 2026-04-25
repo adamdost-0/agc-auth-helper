@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="460" viewBox="0 0 960 460" role="img" aria-labelledby="title desc">
+  <title id="title">Air-gapped flow without required Azure SDK customization</title>
+  <desc id="desc">A simple diagram showing an app in an air-gapped environment trying to use public Azure defaults and being blocked by the air gap wall.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#fca5a5" />
+    </marker>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#020617" flood-opacity="0.35" />
+    </filter>
+  </defs>
+  <rect width="960" height="460" rx="28" fill="#1e1b4b" />
+  <text x="480" y="46" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#fee2e2">Air-gapped cloud with public defaults: the road is closed</text>
+  <text x="480" y="78" text-anchor="middle" font-family="Arial, sans-serif" font-size="17" fill="#fecaca">Kid version: the app asks a helper outside the fort, but the fort has no outside road.</text>
+
+  <rect x="42" y="112" width="438" height="260" rx="28" fill="#0f172a" stroke="#818cf8" stroke-width="3" stroke-dasharray="10 8" />
+  <text x="261" y="140" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#c7d2fe">Inside the private fort</text>
+
+  <g filter="url(#shadow)">
+    <rect x="78" y="185" width="140" height="92" rx="20" fill="#312e81" stroke="#a5b4fc" stroke-width="3" />
+    <text x="148" y="221" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="700" fill="#eef2ff">Your app</text>
+    <text x="148" y="249" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#c7d2fe">still uses defaults</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="290" y="175" width="150" height="112" rx="20" fill="#7f1d1d" stroke="#fca5a5" stroke-width="3" />
+    <text x="365" y="214" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="700" fill="#fff1f2">Azure SDK</text>
+    <text x="365" y="242" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#fee2e2">tries public</text>
+    <text x="365" y="263" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#fee2e2">discovery</text>
+  </g>
+
+  <g>
+    <rect x="505" y="102" width="42" height="270" fill="#450a0a" />
+    <path d="M505 102 L547 132 L505 162 L547 192 L505 222 L547 252 L505 282 L547 312 L505 342 L547 372" stroke="#fecaca" stroke-width="5" fill="none" />
+    <text x="526" y="402" text-anchor="middle" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#fecaca">AIR GAP WALL</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="620" y="122" width="210" height="82" rx="18" fill="#334155" stroke="#94a3b8" stroke-width="3" />
+    <text x="725" y="154" text-anchor="middle" font-family="Arial, sans-serif" font-size="17" font-weight="700" fill="#f8fafc">Public discovery</text>
+    <text x="725" y="179" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#cbd5e1">unreachable</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="620" y="260" width="210" height="82" rx="18" fill="#334155" stroke="#94a3b8" stroke-width="3" />
+    <text x="725" y="292" text-anchor="middle" font-family="Arial, sans-serif" font-size="17" font-weight="700" fill="#f8fafc">Public endpoints</text>
+    <text x="725" y="317" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#cbd5e1">wrong address</text>
+  </g>
+
+  <path d="M220 231 H285" stroke="#fca5a5" stroke-width="5" fill="none" marker-end="url(#arrow)" />
+  <path d="M442 203 C470 184 485 164 502 160" stroke="#fca5a5" stroke-width="5" fill="none" marker-end="url(#arrow)" />
+  <path d="M442 255 C471 276 486 300 502 300" stroke="#fca5a5" stroke-width="5" fill="none" marker-end="url(#arrow)" />
+  <text x="572" y="237" text-anchor="middle" font-family="Arial, sans-serif" font-size="56" font-weight="700" fill="#fecaca">X</text>
+
+  <rect x="78" y="383" width="805" height="46" rx="16" fill="#450a0a" stroke="#fca5a5" stroke-width="2" />
+  <text x="480" y="412" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#fee2e2">Impact: token pickup fails before the app can call ARM or Storage, because the SDK is looking outside the fort.</text>
+</svg>

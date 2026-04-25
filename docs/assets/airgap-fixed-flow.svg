@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="520" viewBox="0 0 960 520" role="img" aria-labelledby="title desc">
+  <title id="title">Air-gapped flow after required cloud profile and Azure SDK customization</title>
+  <desc id="desc">A simple diagram showing an app in an air-gapped environment using a cloud profile, custom authority host, disabled instance discovery, private ARM endpoint, private audiences, and private DNS suffixes.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#86efac" />
+    </marker>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#020617" flood-opacity="0.35" />
+    </filter>
+  </defs>
+  <rect width="960" height="520" rx="28" fill="#052e16" />
+  <text x="480" y="46" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#dcfce7">Air-gapped cloud after customization: use the private map</text>
+  <text x="480" y="78" text-anchor="middle" font-family="Arial, sans-serif" font-size="17" fill="#bbf7d0">Kid version: the app carries a map of the fort, so it only walks to doors inside the fort.</text>
+
+  <rect x="36" y="108" width="888" height="330" rx="30" fill="#0f172a" stroke="#86efac" stroke-width="3" stroke-dasharray="10 8" />
+  <text x="480" y="138" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#bbf7d0">Inside the private fort</text>
+
+  <g filter="url(#shadow)">
+    <rect x="72" y="190" width="120" height="92" rx="20" fill="#14532d" stroke="#86efac" stroke-width="3" />
+    <text x="132" y="226" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="700" fill="#f0fdf4">Your app</text>
+    <text x="132" y="254" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#dcfce7">asks locally</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="238" y="166" width="154" height="140" rx="20" fill="#064e3b" stroke="#6ee7b7" stroke-width="3" />
+    <text x="315" y="199" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="700" fill="#ecfdf5">Cloud profile</text>
+    <text x="315" y="227" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#d1fae5">authorityHost</text>
+    <text x="315" y="248" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#d1fae5">ARM endpoint</text>
+    <text x="315" y="269" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#d1fae5">audiences + DNS</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="442" y="166" width="172" height="140" rx="20" fill="#166534" stroke="#86efac" stroke-width="3" />
+    <text x="528" y="199" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="700" fill="#f0fdf4">Azure SDK</text>
+    <text x="528" y="227" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#dcfce7">uses private login</text>
+    <text x="528" y="248" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#dcfce7">skips public check</text>
+    <text x="528" y="269" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#dcfce7">gets right token</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="672" y="154" width="190" height="74" rx="18" fill="#1d4ed8" stroke="#93c5fd" stroke-width="3" />
+    <text x="767" y="184" text-anchor="middle" font-family="Arial, sans-serif" font-size="17" font-weight="700" fill="#eff6ff">Private login</text>
+    <text x="767" y="207" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#dbeafe">custom authorityHost</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="672" y="258" width="190" height="74" rx="18" fill="#312e81" stroke="#c4b5fd" stroke-width="3" />
+    <text x="767" y="288" text-anchor="middle" font-family="Arial, sans-serif" font-size="17" font-weight="700" fill="#f5f3ff">Private Azure APIs</text>
+    <text x="767" y="311" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#ddd6fe">ARM, Storage, Key Vault</text>
+  </g>
+
+  <path d="M194 236 H232" stroke="#86efac" stroke-width="5" fill="none" marker-end="url(#arrow)" />
+  <path d="M394 236 H436" stroke="#86efac" stroke-width="5" fill="none" marker-end="url(#arrow)" />
+  <path d="M616 214 C638 190 648 190 666 190" stroke="#86efac" stroke-width="5" fill="none" marker-end="url(#arrow)" />
+  <path d="M616 260 C638 290 650 295 666 295" stroke="#86efac" stroke-width="5" fill="none" marker-end="url(#arrow)" />
+
+  <g>
+    <rect x="72" y="356" width="790" height="52" rx="18" fill="#064e3b" stroke="#6ee7b7" stroke-width="2" />
+    <text x="467" y="387" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#d1fae5">Impact: every arrow stays inside the air gap, and each Azure request uses the right private address and token audience.</text>
+  </g>
+
+  <g transform="translate(76 454)">
+    <rect x="0" y="0" width="808" height="38" rx="14" fill="#14532d" stroke="#86efac" stroke-width="2" />
+    <text x="404" y="25" text-anchor="middle" font-family="Arial, sans-serif" font-size="15" fill="#dcfce7">The required change is not "new magic"; it is giving the SDK the correct private map and telling it not to ask the public map service.</text>
+  </g>
+</svg>
