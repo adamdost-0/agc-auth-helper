@@ -10,8 +10,8 @@
     </filter>
   </defs>
   <rect width="960" height="460" rx="28" fill="#0f172a" />
-  <text x="480" y="46" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#e0f2fe">Normal public Azure: the roads are open</text>
-  <text x="480" y="78" text-anchor="middle" font-family="Arial, sans-serif" font-size="17" fill="#bae6fd">Kid version: the app asks the public helper where Azure lives, then drives on the public road.</text>
+  <text x="480" y="46" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#e0f2fe">Public Azure default flow</text>
+  <text x="480" y="78" text-anchor="middle" font-family="Arial, sans-serif" font-size="17" fill="#bae6fd">The SDK can reach public discovery, public identity, and public Azure service endpoints.</text>
 
   <g filter="url(#shadow)">
     <rect x="52" y="155" width="150" height="96" rx="20" fill="#1e293b" stroke="#38bdf8" stroke-width="3" />

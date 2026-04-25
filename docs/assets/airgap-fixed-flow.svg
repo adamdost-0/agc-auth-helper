@@ -10,11 +10,11 @@
     </filter>
   </defs>
   <rect width="960" height="520" rx="28" fill="#052e16" />
-  <text x="480" y="46" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#dcfce7">Air-gapped cloud after customization: use the private map</text>
-  <text x="480" y="78" text-anchor="middle" font-family="Arial, sans-serif" font-size="17" fill="#bbf7d0">Kid version: the app carries a map of the fort, so it only walks to doors inside the fort.</text>
+  <text x="480" y="46" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#dcfce7">Air-gapped cloud after customization</text>
+  <text x="480" y="78" text-anchor="middle" font-family="Arial, sans-serif" font-size="17" fill="#bbf7d0">The cloud profile gives the SDK private authorities, endpoints, audiences, and DNS suffixes.</text>
 
   <rect x="36" y="108" width="888" height="330" rx="30" fill="#0f172a" stroke="#86efac" stroke-width="3" stroke-dasharray="10 8" />
-  <text x="480" y="138" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#bbf7d0">Inside the private fort</text>
+  <text x="480" y="138" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#bbf7d0">Inside the private network</text>
 
   <g filter="url(#shadow)">
     <rect x="72" y="190" width="120" height="92" rx="20" fill="#14532d" stroke="#86efac" stroke-width="3" />
@@ -62,6 +62,6 @@
 
   <g transform="translate(76 454)">
     <rect x="0" y="0" width="808" height="38" rx="14" fill="#14532d" stroke="#86efac" stroke-width="2" />
-    <text x="404" y="25" text-anchor="middle" font-family="Arial, sans-serif" font-size="15" fill="#dcfce7">The required change is not "new magic"; it is giving the SDK the correct private map and telling it not to ask the public map service.</text>
+    <text x="404" y="25" text-anchor="middle" font-family="Arial, sans-serif" font-size="15" fill="#dcfce7">The required change is explicit cloud configuration plus skipping public instance discovery for private authorities.</text>
   </g>
 </svg>
