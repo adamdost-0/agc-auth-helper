@@ -47,6 +47,7 @@ npm run dev
 - [Getting Started](https://adamdost-0.github.io/agc-auth-helper/getting-started) — Local dev setup and cloud selection
 - [Cloud Profiles](https://adamdost-0.github.io/agc-auth-helper/cloud-profiles) — Cloud profile model and built-in profiles
 - [Authentication](https://adamdost-0.github.io/agc-auth-helper/authentication) — Private cloud auth, `disableInstanceDiscovery`, and credential types
+- [Air-Gap Flow Impact](https://adamdost-0.github.io/agc-auth-helper/airgap-flow-impact) — Simple SVG diagrams showing how air-gap settings change the auth flow
 - [Code Snippets](https://adamdost-0.github.io/agc-auth-helper/code-snippets) — Copy-paste `azure-identity` code for TypeScript, Python, .NET, Go, and CLI
 - [Deployment](https://adamdost-0.github.io/agc-auth-helper/deployment) — Bicep baseline, compliance tags, and RBAC setup
 
